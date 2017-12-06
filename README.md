@@ -1,4 +1,4 @@
-# React  Cheat Sheet
+# 📚 React Cheat Sheet
 This repository is a cheat sheet to React for daily use. It contain a lot of snippets from my own use / official documentation and i'll improve it soon !  
 It's made for people like me who like to continue have a overview of some snippets.
 
@@ -47,7 +47,7 @@ const item = <div>{getContent()}</div>;
 
 ```javascript
 // Use camelCase for attribute name
-const item = <div className="0"></div>;
+const item = <div className="example"></div>;
 ```
 
 ```javascript
@@ -180,6 +180,7 @@ componentDidCatch() {
 
 ### Props (Properties)
 Props are immutable.
+
 ```javascript
 // Component with a single valid argument : props
 function Heading(props) {
@@ -219,6 +220,43 @@ class Heading extends React.Component {
 // Do not update state directly
 this.state.title = 'Hello';
 ```
+
+```javascript
+// Lifting state up to share state between component
+class Wrapper extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.state = {value: ''};
+  }
+
+  handleInputChange(value) {
+    this.setState({value});
+  }
+  render() {
+    const value = this.state.value;
+    return (
+        <Input value={value} onInputChange={this.handleInputChange} />
+    );
+  }
+}
+
+class Input extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    this.props.onInputChange(e.target.value);
+  }
+
+  render() {
+    const value = this.props.value;
+    return <input value={value} onChange={this.handleChange} />;
+  }
+}
+```
 **[⬆ Go to top](#table-of-contents)**
 
 ### Handling Event
@@ -242,7 +280,8 @@ function handleClick(e) {
 constructor(props) {
   super(props);
   this.handleClick = this.handleClick.bind(this);
-}```
+}
+```
 
 ```javascript
 // Pass data to callback
@@ -451,7 +490,6 @@ render() {
   );
 }
 ```
-
 **[⬆ Go to top](#table-of-contents)**
 
 ### React without JSX
@@ -471,9 +509,109 @@ const element = React.createElement(
 ```
 **[⬆ Go to top](#table-of-contents)**
 
+### Typechecking props with PropTypes
+```javascript
+// Use PropTypes
+import PropTypes from 'prop-types';
+```
+
+```javascript
+// Prop is an optional array
+MyComponent.propTypes = {
+  optionalArray: PropTypes.array,
+};
+```
+
+```javascript
+// Prop is an optional boolean
+MyComponent.propTypes = {
+  optionalBool: PropTypes.bool,
+};
+```
+
+```javascript
+// Prop is an optional function
+MyComponent.propTypes = {
+  optionalFunc: PropTypes.func,
+};
+```
+
+```javascript
+// Prop is an optional number (integer, float...)
+MyComponent.propTypes = {
+  optionalNumber: PropTypes.number,
+};
+```
+
+```javascript
+// Prop is an optional object
+MyComponent.propTypes = {
+  optionalObject: PropTypes.object,
+};
+```
+
+```javascript
+// Prop is an optional string
+MyComponent.propTypes = {
+  optionalString: PropTypes.string,
+};
+```
+
+```javascript
+// Prop is an optional symbol
+MyComponent.propTypes = {
+  optionalSymbol: PropTypes.symbol,
+};
+```
+
+```javascript
+// Prop is an optional node (numbers, strings, elements, array, fragment)
+MyComponent.propTypes = {
+  optionalNode: PropTypes.node,
+};
+```
+**[⬆ Go to top](#table-of-contents)**
+
 ### Create React App
 ```bash
 # Create new app
 create-react-app my-app
 ```
+**[⬆ Go to top](#table-of-contents)**
+
+### Fetch datas
+```javascript
+// Use componentDidMount hook with fetch
+class PostsList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {posts: []};
+  }
+
+  componentDidMount() {
+    fetch('https://example.com/posts')
+      .then(response => response.json())
+      .then(data => this.setState({ posts: data.posts }));
+      .catch(error => console.log(error));
+  }
+}
+```
+
+```javascript
+// Use Axios library to fetch datas
+import axios from 'axios';
+
+componentDidMount() {
+  axios.get('/post', {
+    params: {ID: 123}
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+```
+
 **[⬆ Go to top](#table-of-contents)**
