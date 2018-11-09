@@ -4,10 +4,8 @@ It's made for people like me who like to continue have a overview of some snippe
 
 ## Table of Contents
 
-1. **[React](#React)**
-2. **[Jest](#Jest)**
-3. **[Router](#Router)**
-
+1. **[React](#1---react)**
+2. **[Redux](#2---redux)**
 
 ## 1 - React
 ### Use React
@@ -611,6 +609,89 @@ componentDidMount() {
   .catch(function (error) {
     console.log(error);
   });
+}
+```
+
+**[⬆ Go to top](#table-of-contents)**
+
+## 2 - Redux
+### Install Redux
+```bash
+npm install --save redux
+# Install react binding
+npm install --save react-redux
+# Install dev tools
+npm install --save-dev redux-devtools
+```
+
+### Actions
+```javascript
+// Declare action type
+const SUBMIT_FORM = 'SUBMIT_FORM'
+```
+
+```javascript
+// Action shape with payload
+{
+  type: SUBMIT_FORM,
+  payload: {
+    firstName: 'John',
+    lastName: 'Doe',
+  }
+}
+```
+
+```javascript
+// Action shape without payload
+{
+  type: SUBMIT_FORM,
+}
+```
+
+```javascript
+// Declare action creator
+function submitForm(formData) {
+  return {
+    type: SUBMIT_FORM,
+    payload: {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+    }
+  }
+}
+```
+
+### Reducers
+```javascript
+// Declare an initial state
+const initialState = {
+  firstName: '',
+  lastName: '',
+  city: '',
+}
+```
+
+```javascript
+// Declare a minimal reducer
+function userReducer(state = initialState, action) {
+  return state;
+}
+```
+
+```javascript
+// Handle action in reducer
+function userReducer(state = initialState, action) {
+  switch (action.type) {
+   case SUBMIT_FORM:
+     return {
+       ...state,
+       firstName: action.payload.firstName,
+       lastName: action.payload.lastName,
+       city: action.payload.city,
+     };
+   default:
+     return state;
+ }
 }
 ```
 
